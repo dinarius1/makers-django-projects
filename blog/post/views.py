@@ -41,3 +41,34 @@ def delete_post(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
     return Response(status=204)
+
+@api_view(["PUT"])
+def update_post(request, id):
+    post = get_object_or_404(Post, id=id)
+    serializer = PostSerializer(post, data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=201) 
+
+@api_view(["PATCH"])
+def partial_update_post(request, id):
+    post = get_object_or_404(Post, id=id)
+    serializer = PostSerializer(post, data=request.data, partial=True) 
+    # partial=True нужно если хотим частично обновить
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=201) 
+
+# @api_view(["PUT", "PATCH"])
+# def update_post(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     partial = True if request.method == "PATCH" else False
+#     serializer = PostSerializer(post, data=request.data, partial=partial) 
+#     # partial=True нужно если хотим частично обновить
+#     serializer.is_valid(raise_exception=True)
+#     serializer.save()
+#     return Response(serializer.data, status=201) 
+
+from rest_framework.viewsets import ModelViewSet
+
+# class PostViewSet(ModelViewSet):
