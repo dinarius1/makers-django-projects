@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from post.views import posts_list, posts_list_api_view, posts_details, create_post, delete_post, update_post, partial_update_post
-from review.views import toggle_like
+from review.views import toggle_like, CreateCommentAPIView, UpdateCommentAPIView, DeleteCommentAPIView
 from account.views import RegisterUserAPIView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -38,6 +38,11 @@ urlpatterns = [
     path('api/register/', RegisterUserAPIView.as_view()),
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
-
+    path('api/comment/create/', CreateCommentAPIView.as_view()), 
+    #as_view - делает из класса функцию, так как после пути нужно указать путь
+    path('api/comment/update/<int:pk>/', UpdateCommentAPIView.as_view()),
+    #<int:pk> - pk, так как в Generic там не id, а pk в look up field
+    path('api/comment/delete/<int:pk>/', DeleteCommentAPIView.as_view()),
 ]
 
+#НЕ ЗАБЫВАЙ ЗАКРЫВАТЬ ПУТЬ ССЫЛКИ СЛЕШОМ "/"!!!!!!! Часто ошибки из за этого
