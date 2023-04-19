@@ -19,6 +19,7 @@ from .serializers import PostSerializer
 def posts_list_api_view(request):
     queryset = Post.objects.all()
     serializer =  PostSerializer(queryset, many= True)  #many= True пишем, если хотим работать со списком с различными значениями
+    print(serializer)
     return Response(serializer.data)
 
 @api_view(['GET'])

@@ -12,7 +12,7 @@ from post.models import Post, User
 
 @api_view(['POST'])
 def toggle_like(request, id):
-    user = request.user
+    user = request.user #в request попадает словарь из данных, и вытаскиваем данные из user
     if not user.is_authenticated:
         return Response(status=401)
     # user_id = request.data.get('user') #request.data. - оттуда выходит json данные
@@ -29,6 +29,9 @@ def toggle_like(request, id):
     return Response(status=201)
 
 class CreateCommentAPIView(CreateAPIView):
+    """
+    CRUD для комментариев
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated] #чтобы добавлять какие то ограничения

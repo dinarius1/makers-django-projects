@@ -23,6 +23,17 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Python 27 API",
+        description="makers bootcamp",
+        default_version="v1",
+    ),
+    public=True
+)
 
 # сохраянет юрл и показывает что она возвращает
 urlpatterns = [
@@ -43,6 +54,7 @@ urlpatterns = [
     path('api/comment/update/<int:pk>/', UpdateCommentAPIView.as_view()),
     #<int:pk> - pk, так как в Generic там не id, а pk в look up field
     path('api/comment/delete/<int:pk>/', DeleteCommentAPIView.as_view()),
+    path('docs/', schema_view.with_ui('swagger')), #чтобы подключить swagger 
 ]
 
 #НЕ ЗАБЫВАЙ ЗАКРЫВАТЬ ПУТЬ ССЫЛКИ СЛЕШОМ "/"!!!!!!! Часто ошибки из за этого
